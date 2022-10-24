@@ -1,11 +1,10 @@
-const path = require("path");
+const util = require("util");
+
 const appConfig = require("../webpack.config")({
   NODE_ENV: "development",
   CYPRESS: false,
   STORYBOOK: true,
 });
-const util = require("util");
-const _ = require("lodash");
 
 module.exports = {
   core: {
@@ -13,34 +12,21 @@ module.exports = {
   },
   framework: "@storybook/react",
   stories: ["../**/*.stories.@(tsx|mdx)"],
-  addons: ["@storybook/addon-essentials"],
+  addons: ["@storybook/addon-docs"],
   webpackFinal: async (config) => {
-    const styleLoaders = appConfig.module.rules.filter(({ test }) => test.test(".scss"));
-    const gqlLoaders = appConfig.module.rules.filter(({ test }) => test.test(".gql"));
-    const mjsLoaders = appConfig.module.rules.filter(({ test }) => test.test(".mjs"));
-    const jsxLoaders = appConfig.module.rules.filter(({ test }) => test.test(".jsx"));
+    // loader incorrectly injects preview-head.html content in preview iframe so remove it
+    appConfig.module.rules = appConfig.module.rules.filter(({ test }) => !test.test(".ejs"));
 
-    config = {
-      ...config,
-      resolve: {
-        ...config.resolve,
-        extensions: _.union(appConfig.resolve.extensions, config.resolve.extensions),
-        modules: _.union(appConfig.resolve.modules, config.resolve.modules),
-      },
-      module: {
-        ...config.module,
+    // remove svg loader from Storybook config and use webpack one from appConfig
+    config.module.rules = config.module.rules.filter(({ test }) => !test.test(".svg"));
 
-        rules: [
-          ...config.module.rules,
-          ...styleLoaders,
-          ...gqlLoaders,
-          ...mjsLoaders,
-          ...jsxLoaders,
-        ],
-      },
+    config.module.rules.push(...appConfig.module.rules);
+
+    config.resolve = appConfig.resolve;
+    config.resolve.extensions.push(".md");
+    config.resolve.alias = {
+      path: require.resolve("path-browserify"),
     };
-
-    console.log(util.inspect(config, false, null, true /* enable colors */));
 
     return config;
   },

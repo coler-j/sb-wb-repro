@@ -8,8 +8,6 @@ declare module "*.png";
 declare module "*.jpeg";
 declare module "*.jpg";
 
-declare module "react-beautiful-dnd-test-utils";
-
 declare module "ckeditor4";
 
 declare module "*.mdx" {
