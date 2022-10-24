@@ -8,7 +8,6 @@
   },
   "private": true,
   "scripts": {
-    "start": "(trap 'kill 0' SIGINT; yarn codegen:watch & yarn serve)",
     "storybook": "STORYBOOK_DEV_ENV=local start-storybook -s stories/static -p 6006",
     "storybook:build": "build-storybook -s stories/static"
   },
