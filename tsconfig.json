@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "lib": ["es6", "dom", "es2017", "es2019", "DOM.Iterable"],
+    "jsx": "react",
+    "module": "commonjs",
+    "downlevelIteration": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "rootDirs": [ "./src", "./stories" ],
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true,
+    "baseUrl": "src",
+    "paths": {
+      "*": ["*"]
+    },
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node", "webpack-env", "jest", "react-css-modules", "ckeditor4", "google.maps"]
+  },
+  "include": ["custom.d.ts", "src/**/*", "stories/**/*"],
+  "exclude": ["node_modules", "dist", "storybook-static"]
+}
